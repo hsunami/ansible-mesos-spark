@@ -1,0 +1,10 @@
+---
+
+- name: Install mesos 
+  hosts: all 
+  vars_files:
+    - ../vars/main.yml
+  tasks:
+    # - include: install-jdk.yml
+    - include: install-mesos.yml
+

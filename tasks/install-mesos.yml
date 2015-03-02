@@ -1,0 +1,23 @@
+---
+
+- name: Mesos | Add apt-key
+  apt_key: id=E56151BF keyserver=keyserver.ubuntu.com state=present
+  sudo: yes
+
+- name: Mesos | Add mesosphere repo
+  apt_repository: repo='deb http://repos.mesosphere.io/{{ansible_distribution|lower}} {{ansible_distribution_release|lower}} main' state=present
+  sudo: yes
+
+- name: debug mesos version
+  debug: msg="{{mesos_version}}-1.1.{{ansible_distribution|lower}}{{ansible_distribution_version.split('.')|join('')}}"
+
+- name: Mesos | Install Debian OS packages
+  apt: pkg={{item}} state=present update_cache=yes
+  with_items:
+    - wget
+    - curl
+    - unzip
+    - python-setuptools
+    - python-dev
+    - mesos={{mesos_version}}-1.1.{{ansible_distribution|lower}}{{ansible_distribution_version.split('.')|join('')}}
+  sudo: yes
